@@ -96,23 +96,38 @@ public class Lexer {
 				v = 10 * v + Character.digit(peek, 10);
 				readch();
 			} while (Character.isDigit(peek));
-			
-			if(peek != '.') //ao inserir peek != '..', estava dando erro em: '..'
+			//inserindo mais uma condição, o caractere ','
+			if(peek != '.' || peek != ',') //ao inserir peek != '..', estava dando erro em: '..'
 				return new Num(v);
-			
+
 			float x = v;
 			float d = 10;
-				
-			for(;;) {
-				readch();
-				if( ! Character.isDigit(peek))
-					break;
-				
-				x = x + Character.digit(peek,  10) / d;
-				d = d * 10;
+		//inserindo a condição caso seja virgula, que será o double
+			if(peek == ','){
+				for(;;) {
+					readch();
+					if( ! Character.isDigit(peek))
+						break;
+
+					x = x + Character.digit(peek,  10) / d;
+					d = d * 10;
+				}
+
+				return new DoubleFloat(x);
+			}else{ // float
+				for(;;) {
+					readch();
+					if( ! Character.isDigit(peek))
+						break;
+
+					x = x + Character.digit(peek,  10) / d;
+					d = d * 10;
+				}
+
+				return new Real(x);
 			}
-				
-			return new Real(x);	
+
+
 		}		
 				
 		if(Character.isLetter(peek)) {
