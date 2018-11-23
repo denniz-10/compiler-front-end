@@ -23,6 +23,8 @@ public class Tag {
 		TEMP = 273,
 		TRUE = 274,
 		WHILE = 275,
-		DOUBLEFLOAT= 276;
+	//criando tag para o tipo double e para o contador
+		DOUBLEFLOAT = 276,
+	    COUNTER = 277;
 	
 }

@@ -20,6 +20,8 @@ public class Lexer {
 		reserve (new Word("while", 	Tag.WHILE));
 		reserve (new Word("do", 	Tag.DO));
 		reserve (new Word("break", 	Tag.BREAK));
+		//Definindo o caracter que ira representar o countador
+		reserve (new Word ("++", Tag.COUNTER));
 		reserve (Word.True);
 		reserve (Word.False);
 		reserve (Type.Int);
@@ -28,6 +30,7 @@ public class Lexer {
 		reserve (Type.Float);
 		//passando como paramentro o tipo double para ser reconhecido
 		reserve(Type.Double);
+
 	}
 	
 	void readch() throws IOException { 
@@ -88,6 +91,7 @@ public class Lexer {
 				return Word.ge;
 			else
 				return new Token ('>');
+
 		}		
 				
 		if(Character.isDigit(peek)) {
@@ -129,14 +133,7 @@ public class Lexer {
 			else{
 				return new Num(v);
 			}
-
-			//inserindo mais uma condição, o caractere ','
-		//	if(peek != '.' || peek != ',') //ao inserir peek != '..', estava dando erro em: '..'
-		//		return new Num(v);
-
-
-
-		}		
+		}
 				
 		if(Character.isLetter(peek)) {
 			StringBuffer b = new StringBuffer();

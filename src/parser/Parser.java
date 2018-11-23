@@ -109,6 +109,7 @@ public class Parser {
                 match(Tag.ELSE);
                 s2 = stmt();
                 return new Else(x, s1, s2);
+                //adicionando mais um case para o contador
             case Tag.WHILE:
                 While whilenode = new While();
                 savedStmt = Stmt.enclosing;
@@ -279,10 +280,18 @@ public class Parser {
                 return x;
             case Tag.ID:
                 String s = look.toString();
+                Token cont = look;
                 Id id = top.get(look);
                 if (id == null) error(look.toString() + " undeclared");
                 move();
                 if (look.tag != '[') return id;
+                else if(look.tag == '+'){
+                    move();
+                    if(look.tag == '+'){
+                        return new Counter(cont);
+                    }
+
+                }
                 else return offset(id);
         }
     }
