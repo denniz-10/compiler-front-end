@@ -216,6 +216,12 @@ public class Parser {
         Expr x = term();
         while (look.tag == '+' || look.tag == '-') {
             Token tok = look;
+            if(look.tag == '+'){
+                move();
+                if(look.tag == '+'){
+                    x = new Counter(x);
+                }
+            }
             move();
             x = new Arith(tok, x, term());
         }
@@ -280,7 +286,7 @@ public class Parser {
                 return x;
             case Tag.ID:
                 String s = look.toString();
-                Token cont = look;
+                int cont = Integer.parseInt(s);
                 Id id = top.get(look);
                 if (id == null) error(look.toString() + " undeclared");
                 move();
