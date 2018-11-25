@@ -20,6 +20,8 @@ public class Lexer {
 		reserve (new Word("while", 	Tag.WHILE));
 		reserve (new Word("do", 	Tag.DO));
 		reserve (new Word("break", 	Tag.BREAK));
+		//criando uma nova palavra a ser conhecida pelo compilador
+		reserve (new Word("for", 	Tag.FOR));
 		reserve (Word.True);
 		reserve (Word.False);
 		reserve (Type.Int);
@@ -109,7 +111,7 @@ public class Lexer {
 					d = d * 10;
 				}
 
-				return new DoubleFloat(x);
+				return new Double(x);
 			}else if(peek == '.'){
 				// float
 				float x = v;
@@ -126,14 +128,9 @@ public class Lexer {
 				return new Real(x);
 			}
 
-			else{
+			else{ // caso não seja double e nem float será um numero inteiro
 				return new Num(v);
 			}
-
-			//inserindo mais uma condição, o caractere ','
-		//	if(peek != '.' || peek != ',') //ao inserir peek != '..', estava dando erro em: '..'
-		//		return new Num(v);
-
 
 
 		}		

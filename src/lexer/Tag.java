@@ -23,6 +23,7 @@ public class Tag {
 		TEMP = 273,
 		TRUE = 274,
 		WHILE = 275,
-		DOUBLEFLOAT= 276;
+		DOUBLE = 276,
+		FOR = 278;
 	
 }
