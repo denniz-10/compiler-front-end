@@ -135,15 +135,47 @@ public class Parser {
                 donode.init(s1, x);
                 Stmt.enclosing = savedStmt;
                 return donode;
+            case Tag.FOR:
+                For fornode = new For();
+                savedStmt = Stmt.enclosing;
+                Stmt.enclosing = fornode;
+                match(Tag.FOR);
+                match('(');
+                Stmt init = declAtt();
+                x = bool();
+                match(';');
+                Stmt increment = assign();
+                match(')');
+                s1 = stmt();
+                fornode.init(init, x, increment, s1);
+                Stmt.enclosing = savedStmt;
+                return fornode;
             case Tag.BREAK:
                 match(Tag.BREAK);
                 match(';');
                 return new Break();
             case '{':
                 return block();
+            //alteracao
+           /* case Tag.BASIC:
+                return declAtt();*/
             default:
                 return assign();
         }
+    }
+    //alteracao
+    Stmt declAtt() throws IOException {
+        Stmt stmt;
+        Type p = type();
+        Token tok = look;
+        match(Tag.ID);
+        Id id = new Id((Word) tok, p, used);
+        match('=');
+        stmt = new DeclAtt(id, bool());
+        match(';');
+        top.put(tok, id);
+        used = used + p.width;
+        return stmt;
     }
 
     Stmt assign() throws IOException {
@@ -151,7 +183,8 @@ public class Parser {
         Token t = look;
         match(Tag.ID);
         Id id = top.get(t);
-        if (id == null) error(t.toString() + " undeclared");
+        if (id == null)
+            error(t.toString() + " undeclared");
         if (look.tag == '=') {
             move();
             stmt = new Set(id, bool());
@@ -164,6 +197,7 @@ public class Parser {
         match(';');
         return stmt;
     }
+
 
     Expr bool() throws IOException {
         Expr x = join();
@@ -262,7 +296,7 @@ public class Parser {
                 move();
                 return x;
             // criar uma case para o numero do tipo double
-            case Tag.DOUBLEFLOAT:
+            case Tag.DOUBLE:
                 x = new Constant(look, Type.Double);
                 move();
                 return x;

@@ -1,11 +1,11 @@
 package lexer;
 
-public class DoubleFloat extends Token{
+public class Double extends Token{
 
     public final double value;
 
-    public  DoubleFloat (double v) {
-        super(Tag.DOUBLEFLOAT);
+    public Double(double v) {
+        super(Tag.DOUBLE);
         value = v;
     }
 
