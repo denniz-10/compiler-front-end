@@ -178,25 +178,6 @@ public class Parser {
         return stmt;
     }
 
-    //CASO ALTERE BLOCK
-    Stmt decl() throws IOException {
-        Stmt stmt;
-        Type p = type();
-        Token tok = look;
-        match(Tag.ID);
-        Id id = new Id((Word) tok, p, used);
-        if (look.tag == '=') {
-            move();
-            stmt = new DeclAtt(id, bool());
-        }else {
-            stmt = new Declare(id);
-        }
-        match(';');
-        top.put(tok, id);
-        used = used + p.width;
-        return stmt;
-    }
-
     Stmt assign() throws IOException {
         Stmt stmt;
         Token t = look;
