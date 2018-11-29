@@ -135,17 +135,24 @@ public class Parser {
                 donode.init(s1, x);
                 Stmt.enclosing = savedStmt;
                 return donode;
+                //adcionar mais um case, sendo da Tag For
             case Tag.FOR:
                 For fornode = new For();
                 savedStmt = Stmt.enclosing;
                 Stmt.enclosing = fornode;
                 match(Tag.FOR);
+                //le o parentese da estrutura do for, caso n for inserido o compilador dará erro
                 match('(');
+                //uma declaração com atribuição da variavel de controle
                 Stmt init = declAtt();
+                // aqui irá ler a condição de parada
                 x = bool();
                 match(';');
+                //o incrementador
                 Stmt increment = assign();
+                //fecha parentese
                 match(')');
+                // e le a expressão que será repetida em casa iteração do loop
                 s1 = stmt();
                 fornode.init(init, x, increment, s1);
                 Stmt.enclosing = savedStmt;
@@ -156,14 +163,12 @@ public class Parser {
                 return new Break();
             case '{':
                 return block();
-            //alteracao
-           /* case Tag.BASIC:
-                return declAtt();*/
             default:
                 return assign();
         }
     }
-    //alteracao
+    //metodo que permite fazer declaração com atribuição
+    //é usada somente no for
     Stmt declAtt() throws IOException {
         Stmt stmt;
         Type p = type();
